@@ -1,0 +1,19 @@
+[project]
+name = "metadata-murderer"
+version = "1.0.0"
+description = "Bulk strip metadata from images and PDFs, add optional watermark, and verify removal."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "SlayBot9000"}]
+dependencies = [
+  "Pillow>=10.3",
+  "piexif>=1.1.3",
+  "pikepdf>=9.0.0",
+]
+
+[project.scripts]
+mdm = "metadata_murderer.cli:app"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
