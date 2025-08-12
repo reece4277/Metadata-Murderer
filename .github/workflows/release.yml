@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -17,22 +20,24 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build
+          pip install build pytest
 
       - name: Run tests
-        run: |
-          pip install -e .
-          pip install pytest
-          pytest -q
+        run: pytest -q
 
       - name: Build package
         run: python -m build
 
+      - name: Zip full repository
+        run: |
+          zip -r metadata-murderer-full.zip .
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/*
+          files: |
+            dist/*
+            metadata-murderer-full.zip
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
